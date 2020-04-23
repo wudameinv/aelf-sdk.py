@@ -9,6 +9,10 @@ jobs:
       - 6379:6379
   pool:
     vmImage: ubuntu-18.04
+  strategy:
+    matrix:
+      Python37:
+        python.version: '3.7'
   steps:
   - task: DotNetCoreInstaller@0
     inputs:
