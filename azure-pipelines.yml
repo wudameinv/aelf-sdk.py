@@ -1,25 +1,26 @@
-services:
-  redis:
-    image: redis
-    ports:
+# All tasks on Linux
+jobs:
+- job: build_all_linux
+  displayName: Build all tasks (Linux)
+  services:
+    redis:
+      image: redis
+      ports:
       - 6379:6379
+  pool:
+    vmImage: ubuntu-18.04
+  steps:
+  - task: DotNetCoreInstaller@0
+    inputs:
+      version: '3.1.101'
+  - script: cd scripts/aelf-node && bash start.sh
+    displayName: 'Deploy a full node'
+  - script: |
+      python -m pip install --upgrade pip
+      pip install coincurve base58 requests protobuf
+  - script: cd src && python test.py
+    displayName: 'pytest'    
 
-pool:
-  vmImage: 'ubuntu-16.04'
-strategy:
-  matrix:
-    Python37:
-      python.version: '3.7'
 
-steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '$(python.version)'
-  displayName: 'Use Python $(python.version)'
-- script: cd scripts/aelf-node/ && bash start.sh
-  displayName: 'deploy node' 
-- script: |
-    python -m pip install --upgrade pip
-    pip install coincurve base58 requests protobuf
-- script: cd src && python test.py
-  displayName: 'pytest'
+
+
