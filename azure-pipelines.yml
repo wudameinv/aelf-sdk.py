@@ -13,6 +13,10 @@ jobs:
   - task: DotNetCoreInstaller@0
     inputs:
       version: '3.1.101'
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+    displayName: 'Use Python $(python.version)'
   - script: cd scripts/aelf-node && bash start.sh
     displayName: 'Deploy a full node'
   - script: |
