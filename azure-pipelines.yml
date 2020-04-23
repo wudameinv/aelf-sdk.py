@@ -72,7 +72,7 @@ jobs:
   - script: cd scripts/aelf-node && bash start-mac.sh
     displayName: 'Deploy a full node'
   - script: |
-    python -m pip install --upgrade pip
-    pip install coincurve base58 requests protobuf
+      python -m pip install --upgrade pip
+      pip install coincurve base58 requests protobuf
   - script: cd src && python test.py
     displayName: 'pytest'
