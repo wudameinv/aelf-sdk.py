@@ -52,7 +52,24 @@ jobs:
       pip install coincurve base58 requests protobuf
   - script: cd src && python test.py
     displayName: 'pytest'    
-
-
-
-
+# All tasks on macOS
+- job: build_all_macos
+  displayName: Build all tasks (macos)
+  pool:
+    vmImage: macos-latest
+  strategy:
+    matrix:
+      Python37:
+        python.version: '3.7'
+  steps:
+  - task: DotNetCoreInstaller@0
+    inputs:
+      version: '3.1.101'
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+    displayName: 'Use Python $(python.version)'
+  - script: cd scripts/aelf-node && bash start-mac.sh
+    displayName: 'Deploy a full node'
+  - script: cd src && python test.py
+    displayName: 'pytest'
