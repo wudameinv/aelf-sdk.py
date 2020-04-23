@@ -1,5 +1,20 @@
 # All tasks on Linux
 jobs:
+
+- job: build_all_window
+  displayName: Build all tasks (window)
+  pool:
+    vmImage: 'windows-2019'
+  variables:
+    phpVersion: 7.2
+  steps:
+  - task: UseDotNet@2
+    displayName: 'Install .NET Core SDK'
+    inputs:
+      version: 3.1.101
+  - powershell: ./scripts/aelf-node/start-window.ps1
+    displayName: 'Build and Test'
+
 - job: build_all_linux
   displayName: Build all tasks (Linux)
   services:
